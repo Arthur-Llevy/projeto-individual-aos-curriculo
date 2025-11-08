@@ -1,25 +1,38 @@
 import { db } from "../database/connection.js"
-import { usersTable } from "../database/schema.js"
-import { eq } from "drizzle-orm";
+import { postsTable, usersTable } from "../database/schema.js"
+import { desc, eq } from "drizzle-orm";
 import { NotFoundException } from "../exceptions/notFoundException.js";
 import { EmptyFieldsException } from "../exceptions/emptyFieldsException.js";
 
 export const userService = {
     getAllUsers: async () => {
-        try {
-            const users = await db.select().from(usersTable);
-            return users;
+    try {
+        const users = await db.query.usersTable.findMany({
+        with: {
+            posts: {
+            orderBy: [desc(postsTable.created_at)],
+            },
+        },
+        });
 
-        } catch (error: Error | any) {
-            throw new Error(`Could not fetch users from database: ${error.message}`);
-        }
+        return users;
+    } catch (error: any) {
+        throw new Error(`Erro: ${error.message}`);
+    }
     },
 
     getUserById: async (id: number) => {
         try {
-            const user = await db.select().from(usersTable).where(eq(usersTable.id, id));
+            const user = await db.query.usersTable.findFirst({
+            where: eq(usersTable.id, id),
+            with: {
+                posts: {
+                orderBy: [desc(postsTable.created_at)],
+                },
+            },
+            });
 
-            if (user.length === 0) {
+            if (!user) {
                 throw new NotFoundException(`User with id ${id} not found.`);
             }
             
