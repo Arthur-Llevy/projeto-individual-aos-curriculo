@@ -12,14 +12,16 @@ app.get("/", async (req, res) => {
     return res.json(result)
 })
 
-app.use("/api/users", routes.userRoutes);
-app.use("/api/posts", routes.postRoutes);
-app.use("/api/messages", routes.messageRoutes);
-app.use("/api/skills", routes.skillRoutes);
-app.use("/api/academic-training", routes.academicTrainingRoutes);
+app.use("/users", routes.userRoutes);
+app.use("/posts", routes.postRoutes);
+app.use("/messages", routes.messageRoutes);
+app.use("/skills", routes.skillRoutes);
+app.use("/academic-training", routes.academicTrainingRoutes);
 
-app.listen(3000, () => {
-    console.log("Server on port 3000.");
-})
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(3000, () => {
+        console.log("Server on port 3000.");
+    });
+}
 
 export default app;
