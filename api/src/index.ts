@@ -16,6 +16,7 @@ app.use("/api/users", routes.userRoutes);
 app.use("/api/posts", routes.postRoutes);
 app.use("/api/messages", routes.messageRoutes);
 app.use("/api/skills", routes.skillRoutes);
+app.use("/api/academic-training", routes.academicTrainingRoutes);
 
 app.listen(3000, () => {
     console.log("Server on port 3000.");
