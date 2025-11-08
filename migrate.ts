@@ -1,5 +1,5 @@
 import { migrate } from "drizzle-orm/node-postgres/migrator";
-import { db } from "./api/database/connection.js"; // ← ajusta se seu db.ts estiver em outro lugar
+import { db } from "./api/database/connection.js";
 
 async function run() {
     console.log("🚀 Aplicando migrações...");

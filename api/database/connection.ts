@@ -1,10 +1,16 @@
 import { drizzle } from "drizzle-orm/node-postgres";
-import { Client } from "pg";
+import { Pool } from "pg";
 import 'dotenv/config';
 
-const client = new Client({
+const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
+    max: 20, 
+    idleTimeoutMillis: 30000, 
+    connectionTimeoutMillis: 2000, 
 });
 
-await client.connect();
-export const db = drizzle(client);
+pool.on('error', (err) => {
+    console.error('Unexpected error on idle client', err);
+});
+
+export const db = drizzle(pool);

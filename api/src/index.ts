@@ -1,6 +1,7 @@
 import express from "express";
 import { db } from "../database/connection.js";
 import { usersTable } from "../database/schema.js";
+import routes from "../routes/index.js";
 
 const app = express();
 
@@ -10,6 +11,8 @@ app.get("/", async (req, res) => {
     const result = await db.select().from(usersTable);
     return res.json(result)
 })
+
+app.use("/api/users", routes.userRoutes);
 
 app.listen(3000, () => {
     console.log("Server on port 3000.");
