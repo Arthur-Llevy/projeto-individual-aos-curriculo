@@ -14,6 +14,7 @@ app.get("/", async (req, res) => {
 
 app.use("/api/users", routes.userRoutes);
 app.use("/api/posts", routes.postRoutes);
+app.use("/api/messages", routes.messageRoutes);
 
 app.listen(3000, () => {
     console.log("Server on port 3000.");

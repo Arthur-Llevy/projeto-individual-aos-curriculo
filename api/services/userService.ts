@@ -1,5 +1,5 @@
 import { db } from "../database/connection.js"
-import { postsTable, usersTable } from "../database/schema.js"
+import { messagesTable, postsTable, usersTable } from "../database/schema.js"
 import { desc, eq } from "drizzle-orm";
 import { NotFoundException } from "../exceptions/notFoundException.js";
 import { EmptyFieldsException } from "../exceptions/emptyFieldsException.js";
@@ -12,6 +12,15 @@ export const userService = {
             posts: {
             orderBy: [desc(postsTable.created_at)],
             },
+            sentMessages: {
+              orderBy: [desc(messagesTable.created_at)],
+            }, 
+            academicTrainings: {
+                orderBy: [desc(usersTable.created_at)],
+            },
+            skills: {
+                orderBy: [desc(usersTable.created_at)],
+            }
         },
         });
 

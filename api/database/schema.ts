@@ -9,7 +9,6 @@ import {
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
-
 export const usersTable = pgTable("users", {
   id: integer("id").generatedAlwaysAsIdentity().primaryKey(),
   full_name: varchar("full_name").notNull(),
@@ -22,9 +21,9 @@ export const usersTable = pgTable("users", {
 
 export const postsTable = pgTable("posts", {
   id: integer("id").generatedAlwaysAsIdentity().primaryKey(),
-  user_id: integer("user_id").notNull().references(() => usersTable.id, {
-    onDelete: "cascade",
-  }),
+  user_id: integer("user_id")
+    .notNull()
+    .references(() => usersTable.id, { onDelete: "cascade" }),
   title: varchar("title").notNull(),
   content: text("content").notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
@@ -36,19 +35,19 @@ export const messagesTable = pgTable("messages", {
   content: text("content").notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
   updated_at: timestamp("updated_at").notNull(),
-  to_user: integer("to_user").notNull().references(() => usersTable.id, {
-    onDelete: "cascade",
-  }),
-  from_user: integer("from_user").notNull().references(() => usersTable.id, {
-    onDelete: "cascade",
-  }),
+  to_user: integer("to_user")
+    .notNull()
+    .references(() => usersTable.id, { onDelete: "cascade" }),
+  from_user: integer("from_user")
+    .notNull()
+    .references(() => usersTable.id, { onDelete: "cascade" }),
 });
 
 export const skillsTable = pgTable("skills", {
   id: integer("id").generatedAlwaysAsIdentity().primaryKey(),
-  user_id: integer("user_id").notNull().references(() => usersTable.id, {
-    onDelete: "cascade",
-  }),
+  user_id: integer("user_id")
+    .notNull()
+    .references(() => usersTable.id, { onDelete: "cascade" }),
   content: text("content").notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
   updated_at: timestamp("updated_at").notNull(),
@@ -56,9 +55,9 @@ export const skillsTable = pgTable("skills", {
 
 export const academicTrainingsTable = pgTable("academic_trainings", {
   id: integer("id").generatedAlwaysAsIdentity().primaryKey(),
-  user_id: integer("user_id").notNull().references(() => usersTable.id, {
-    onDelete: "cascade",
-  }),
+  user_id: integer("user_id")
+    .notNull()
+    .references(() => usersTable.id, { onDelete: "cascade" }),
   title: varchar("title").notNull(),
   institution: varchar("institution").notNull(),
   completed: boolean("completed").notNull(),
@@ -68,7 +67,6 @@ export const academicTrainingsTable = pgTable("academic_trainings", {
   created_at: timestamp("created_at").defaultNow().notNull(),
   updated_at: timestamp("updated_at").notNull(),
 });
-
 
 export const userRelations = relations(usersTable, ({ many }) => ({
   posts: many(postsTable),
@@ -112,14 +110,12 @@ export const academicTrainingsRelations = relations(academicTrainingsTable, ({ o
   }),
 }));
 
-
 export const schema = {
   usersTable,
   postsTable,
   messagesTable,
   skillsTable,
   academicTrainingsTable,
-
   userRelations,
   postsRelations,
   messagesRelations,
